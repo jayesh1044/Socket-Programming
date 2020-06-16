@@ -12,12 +12,31 @@ public class ServerDemo {
 			Socket s=ss.accept(); 
 			System.out.println("Client connected!");
 			
-			DataInputStream dis=new DataInputStream(s.getInputStream());  
-			String  str=(String)dis.readUTF();  
+			DataInputStream dis=new DataInputStream(s.getInputStream());
+			DataOutputStream dout=new DataOutputStream(s.getOutputStream());  
+
+		  
 			
-			System.out.println("Client Says : "+str);  
+			BufferedReader br=new BufferedReader(new InputStreamReader(System.in));  
+			  
+			String str="",str2="";  
+			
+			while(!str.equals("exit")){  
+			str=dis.readUTF();  
+			System.out.println("client says: "+str);
+			System.out.println("Enter text");
+			str2=br.readLine();  
+			dout.writeUTF(str2);  
+			dout.flush();  
+			}  
+			dis.close();  
+			s.close();  
 			ss.close();  
+			
+			
 			}
+		
+		
 		catch(SocketException e)
 		{
 				System.out.println(e.getMessage());
